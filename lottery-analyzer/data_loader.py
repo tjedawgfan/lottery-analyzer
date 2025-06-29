@@ -17,16 +17,15 @@ def load_powerball_data(url: str = "https://data.ny.gov/api/views/d6yy-54nr/rows
 
     Notes
     -----
-    The source CSV uses columns ``"Draw Date"`` and ``"Winning Numbers"``. This
+    The source CSV uses columns named ``"Draw Date"`` and ``"Winning Numbers"``.
     loader renames them to ``"draw_date"`` and ``"winning_numbers"`` for easier
     downstream processing.
     """
 
     df = pd.read_csv(url)
-    # Normalize the date column from the CSV to a lowercase name for easier use
+    # Normalize key columns from the CSV to lowercase names for easier use
     df.rename(columns={'Draw Date': 'draw_date',
-                       'Winning Numbers': 'winning_numbers'},
-              inplace=True)
+                       'Winning Numbers': 'winning_numbers'}, inplace=True)
     df['draw_date'] = pd.to_datetime(df['draw_date'])
     df = df.sort_values('draw_date')
     df[['num1','num2','num3','num4','num5','powerball']] = df['winning_numbers'].str.split(' ', expand=True)
