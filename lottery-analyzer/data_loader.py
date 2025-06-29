@@ -17,8 +17,8 @@ def load_powerball_data(url: str = "https://data.ny.gov/api/views/d6yy-54nr/rows
     """
 
     df = pd.read_csv(url)
-    df['draw_date'] = pd.to_datetime(df['draw_date'])
-    df = df.sort_values('draw_date')
+    df['Draw Date'] = pd.to_datetime(df['Draw Date'])
+    df = df.sort_values('Draw Date')
     df[['num1','num2','num3','num4','num5','powerball']] = df['winning_numbers'].str.split(' ', expand=True)
     df[['num1','num2','num3','num4','num5','powerball']] = df[['num1','num2','num3','num4','num5','powerball']].astype(int)
     return df
