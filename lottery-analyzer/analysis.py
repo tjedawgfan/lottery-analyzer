@@ -65,3 +65,24 @@ def estimate_probability(numbers, freqs):
     total = sum(freqs.values())
     return sum(freqs.get(n, 0) for n in numbers) / total
 
+
+def find_duplicate_draws(df):
+    """Return drawing combinations that occurred more than once.
+
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+        DataFrame containing columns ``num1`` through ``num5`` and ``powerball``.
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        Table of duplicated combinations with a ``count`` column showing how
+        many times each occurred.
+    """
+
+    combo_cols = ['num1', 'num2', 'num3', 'num4', 'num5', 'powerball']
+    dup = df.groupby(combo_cols).size().reset_index(name='count')
+    dup = dup[dup['count'] > 1]
+    return dup.sort_values('count', ascending=False)
+

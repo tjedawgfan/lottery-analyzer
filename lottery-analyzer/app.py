@@ -4,6 +4,7 @@ from analysis import (
     top_n,
     bottom_n,
     estimate_probability,
+    find_duplicate_draws,
 )
 from data_loader import load_powerball_data
 
@@ -11,6 +12,14 @@ st.title("🎯 Lottery Trend Analyzer")
 
 df = load_powerball_data()
 freqs = get_number_frequencies(df, ['num1','num2','num3','num4','num5'])
+
+st.subheader("⚠️ Duplicate Winning Combinations")
+dups = find_duplicate_draws(df)
+if dups.empty:
+    st.write("No full duplicate combinations detected.")
+else:
+    st.write("The following combinations occurred more than once:")
+    st.dataframe(dups)
 
 st.subheader("🔥 Hot and ❄️ Cold Numbers")
 hot = top_n(freqs, 5)
